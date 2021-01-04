@@ -1,0 +1,11 @@
+void mainScript(void);
+uint32_t readAccel(void);
+void displayData(uint32_t n);
+void writeNumber(int n);
+void drawA(bool tens);
+void drawB(bool tens);
+void drawC(bool tens);
+void drawD(bool tens);
+void drawE(bool tens);
+void drawF(bool tens);
+void drawG(bool tens);

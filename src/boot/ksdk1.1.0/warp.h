@@ -43,6 +43,7 @@ typedef enum
 
 	kWarpTypeMaskTotalVOC		= (1 << 28),
 	kWarpTypeMaskEquivalentCO2	= (1 << 29),
+	kWarpTypeMaskCurrent 		= (1 << 30),
 
 
 	/*
@@ -137,6 +138,7 @@ typedef enum
 {
 	kWarpSensorADXL362,
 	kWarpSensorMMA8451Q,
+	kWarpSensorINA219,
 	kWarpSensorBME680,
 	kWarpSensorBMX055accel,
 	kWarpSensorBMX055gyro,
@@ -181,6 +183,9 @@ typedef struct
 
 typedef enum
 {
+	kWarpSensorConfigurationRegisterINA219 				= 0x00,
+	kWarpSensorCalibrationRegisterINA219				= 0x05,
+
 	kWarpSensorConfigurationRegisterMMA8451QF_SETUP			= 0x09,
 	kWarpSensorConfigurationRegisterMMA8451QCTRL_REG1		= 0x2A,
 
@@ -227,6 +232,11 @@ typedef enum
 
 typedef enum
 {
+	kWarpSensorOutputRegisterINA219Shunt				= 0x01,
+	kWarpSensorOutputRegisterINA219Bus				= 0x02,
+	kWarpSensorOutputRegisterINA219Power				= 0x03,
+	kWarpSensorOutputRegisterINA219Current 				= 0x04,
+
 	kWarpSensorOutputRegisterMMA8451QOUT_X_MSB			= 0x01,
 	kWarpSensorOutputRegisterMMA8451QOUT_X_LSB			= 0x02,
 	kWarpSensorOutputRegisterMMA8451QOUT_Y_MSB			= 0x03,

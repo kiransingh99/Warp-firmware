@@ -55,22 +55,25 @@
 #include "SEGGER_RTT.h"
 #include "warp.h"
 
+#include "cw5.h"
 
-//#define WARP_FRDMKL03
+#define WARP_FRDMKL03
 
 
 /*
 *	Comment out the header file to disable devices
 */
 #ifndef WARP_FRDMKL03
-#	include "devBMX055.h"
+//#	include "devBMX055.h"
 #	include "devMMA8451Q.h"
-#	include "devHDC1000.h"
-#	include "devMAG3110.h"
-#	include "devL3GD20H.h"
-#	include "devBME680.h"
-#	include "devCCS811.h"
-#	include "devAMG8834.h"
+//#	include "devHDC1000.h"
+//#	include "devMAG3110.h"
+//#	include "devL3GD20H.h"
+//#	include "devBME680.h"
+//#	include "devCCS811.h"
+//#	include "devAMG8834.h"
+#	include "devSSD1331.h"
+//#	include "devINA219.h"
 //#	include "devMAX11300.h"
 //#include "devTCS34725.h"
 //#include "devSI4705.h"
@@ -84,6 +87,7 @@
 //#include "devISL23415.h"
 #else
 #	include "devMMA8451Q.h"
+//#	include "devINA219.h"
 #endif
 
 
@@ -102,81 +106,85 @@
 #define						kWarpConstantStringErrorSanity		"\rSanity check failed!"
 
 
-#ifdef WARP_BUILD_ENABLE_DEVADXL362
-volatile WarpSPIDeviceState			deviceADXL362State;
-#endif
-
-#ifdef WARP_BUILD_ENABLE_DEVISL23415
-volatile WarpSPIDeviceState			deviceISL23415State;
-#endif
-
-#ifdef WARP_BUILD_ENABLE_DEVBMX055
-volatile WarpI2CDeviceState			deviceBMX055accelState;
-volatile WarpI2CDeviceState			deviceBMX055gyroState;
-volatile WarpI2CDeviceState			deviceBMX055magState;
-#endif
+//#ifdef WARP_BUILD_ENABLE_DEVADXL362
+//volatile WarpSPIDeviceState			deviceADXL362State;
+//#endif
+//
+//#ifdef WARP_BUILD_ENABLE_DEVISL23415
+//volatile WarpSPIDeviceState			deviceISL23415State;
+//#endif
+//
+//#ifdef WARP_BUILD_ENABLE_DEVBMX055
+//volatile WarpI2CDeviceState			deviceBMX055accelState;
+//volatile WarpI2CDeviceState			deviceBMX055gyroState;
+//volatile WarpI2CDeviceState			deviceBMX055magState;
+//#endif
 
 #ifdef WARP_BUILD_ENABLE_DEVMMA8451Q
 volatile WarpI2CDeviceState			deviceMMA8451QState;
 #endif
 
-#ifdef WARP_BUILD_ENABLE_DEVLPS25H
-volatile WarpI2CDeviceState			deviceLPS25HState;
-#endif
-
-#ifdef WARP_BUILD_ENABLE_DEVHDC1000
-volatile WarpI2CDeviceState			deviceHDC1000State;
-#endif
-
-#ifdef WARP_BUILD_ENABLE_DEVMAG3110
-volatile WarpI2CDeviceState			deviceMAG3110State;
-#endif
-
-#ifdef WARP_BUILD_ENABLE_DEVSI7021
-volatile WarpI2CDeviceState			deviceSI7021State;
-#endif
-
-#ifdef WARP_BUILD_ENABLE_DEVL3GD20H
-volatile WarpI2CDeviceState			deviceL3GD20HState;
-#endif
-
-#ifdef WARP_BUILD_ENABLE_DEVBME680
-volatile WarpI2CDeviceState			deviceBME680State;
-volatile uint8_t				deviceBME680CalibrationValues[kWarpSizesBME680CalibrationValuesCount];
-#endif
-
-#ifdef WARP_BUILD_ENABLE_DEVTCS34725
-volatile WarpI2CDeviceState			deviceTCS34725State;
-#endif
-
-#ifdef WARP_BUILD_ENABLE_DEVSI4705
-volatile WarpI2CDeviceState			deviceSI4705State;
-#endif
-
-#ifdef WARP_BUILD_ENABLE_DEVCCS811
-volatile WarpI2CDeviceState			deviceCCS811State;
-#endif
-
-#ifdef WARP_BUILD_ENABLE_DEVAMG8834
-volatile WarpI2CDeviceState			deviceAMG8834State;
-#endif
-
-#ifdef WARP_BUILD_ENABLE_DEVPAN1326
-volatile WarpUARTDeviceState			devicePAN1326BState;
-volatile WarpUARTDeviceState			devicePAN1323ETUState;
-#endif
-
-#ifdef WARP_BUILD_ENABLE_DEVAS7262
-volatile WarpI2CDeviceState			deviceAS7262State;
-#endif
-
-#ifdef WARP_BUILD_ENABLE_DEVAS7263
-volatile WarpI2CDeviceState			deviceAS7263State;
-#endif
-
-#ifdef WARP_BUILD_ENABLE_DEVRV8803C7
-volatile WarpI2CDeviceState			deviceRV8803C7State;
-#endif
+//#ifdef WARP_BUILD_ENABLE_DEVINA219
+//volatile WarpI2CDeviceState			deviceINA219State;
+//#endif
+//
+//#ifdef WARP_BUILD_ENABLE_DEVLPS25H
+//volatile WarpI2CDeviceState			deviceLPS25HState;
+//#endif
+//
+//#ifdef WARP_BUILD_ENABLE_DEVHDC1000
+//volatile WarpI2CDeviceState			deviceHDC1000State;
+//#endif
+//
+//#ifdef WARP_BUILD_ENABLE_DEVMAG3110
+//volatile WarpI2CDeviceState			deviceMAG3110State;
+//#endif
+//
+//#ifdef WARP_BUILD_ENABLE_DEVSI7021
+//volatile WarpI2CDeviceState			deviceSI7021State;
+//#endif
+//
+//#ifdef WARP_BUILD_ENABLE_DEVL3GD20H
+//volatile WarpI2CDeviceState			deviceL3GD20HState;
+//#endif
+//
+//#ifdef WARP_BUILD_ENABLE_DEVBME680
+//volatile WarpI2CDeviceState			deviceBME680State;
+//volatile uint8_t				deviceBME680CalibrationValues[kWarpSizesBME680CalibrationValuesCount];
+//#endif
+//
+//#ifdef WARP_BUILD_ENABLE_DEVTCS34725
+//volatile WarpI2CDeviceState			deviceTCS34725State;
+//#endif
+//
+//#ifdef WARP_BUILD_ENABLE_DEVSI4705
+//volatile WarpI2CDeviceState			deviceSI4705State;
+//#endif
+//
+//#ifdef WARP_BUILD_ENABLE_DEVCCS811
+//volatile WarpI2CDeviceState			deviceCCS811State;
+//#endif
+//
+//#ifdef WARP_BUILD_ENABLE_DEVAMG8834
+//volatile WarpI2CDeviceState			deviceAMG8834State;
+//#endif
+//
+//#ifdef WARP_BUILD_ENABLE_DEVPAN1326
+//volatile WarpUARTDeviceState			devicePAN1326BState;
+//volatile WarpUARTDeviceState			devicePAN1323ETUState;
+//#endif
+//
+//#ifdef WARP_BUILD_ENABLE_DEVAS7262
+//volatile WarpI2CDeviceState			deviceAS7262State;
+//#endif
+//
+//#ifdef WARP_BUILD_ENABLE_DEVAS7263
+//volatile WarpI2CDeviceState			deviceAS7263State;
+//#endif
+//
+//#ifdef WARP_BUILD_ENABLE_DEVRV8803C7
+//volatile WarpI2CDeviceState			deviceRV8803C7State;
+//#endif
 
 /*
  *	TODO: move this and possibly others into a global structure
@@ -209,7 +217,7 @@ void					enableTPS82740B(uint16_t voltageMillivolts);
 void					setTPS82740CommonControlLines(uint16_t voltageMillivolts);
 void					printPinDirections(void);
 void					dumpProcessorState(void);
-void					repeatRegisterReadForDeviceAndAddress(WarpSensorDevice warpSensorDevice, uint8_t baseAddress, 
+void					repeatRegisterReadForDeviceAndAddress(WarpSensorDevice warpSensorDevice, uint8_t baseAddress,
 								uint8_t pullupValue, bool autoIncrement, int chunkReadsPerAddress, bool chatty,
 								int spinDelay, int repetitionsPerAddress, uint16_t sssupplyMillivolts,
 								uint16_t adaptiveSssupplyMaxMillivolts, uint8_t referenceByte);
@@ -454,7 +462,7 @@ disableSPIpins(void)
 
 	GPIO_DRV_ClearPinOutput(kWarpPinSPI_MOSI);
 	GPIO_DRV_ClearPinOutput(kWarpPinSPI_MISO);
-	GPIO_DRV_ClearPinOutput(kWarpPinSPI_SCK);
+//	GPIO_DRV_ClearPinOutput(kWarpPinSPI_SCK);
 
 
 	CLOCK_SYS_DisableSpiClock(0);
@@ -636,7 +644,7 @@ lowPowerPinStates(void)
 	GPIO_DRV_ClearPinOutput(kWarpPinTPS82740B_CTLEN);
 	GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL1);
 	GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL2);
-	GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL3);
+//	GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL3);
 
 #ifndef WARP_BUILD_ENABLE_THERMALCHAMBERANALYSIS
 	GPIO_DRV_ClearPinOutput(kWarpPinCLKOUT32K);
@@ -684,7 +692,7 @@ lowPowerPinStates(void)
 	GPIO_DRV_ClearPinOutput(kWarpPinI2C0_SCL);
 	GPIO_DRV_ClearPinOutput(kWarpPinSPI_MOSI);
 	GPIO_DRV_ClearPinOutput(kWarpPinSPI_MISO);
-	GPIO_DRV_ClearPinOutput(kWarpPinSPI_SCK);
+//	GPIO_DRV_ClearPinOutput(kWarpPinSPI_SCK);
 
 	/*
 	 *	HCI_RX / kWarpPinI2C0_SCL is an input. Set it low.
@@ -775,7 +783,7 @@ setTPS82740CommonControlLines(uint16_t voltageMillivolts)
 		{
 			GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL1);
 			GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL2);
-			GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL3);
+//			GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL3);
 
 			break;
 		}
@@ -785,7 +793,7 @@ setTPS82740CommonControlLines(uint16_t voltageMillivolts)
 		{
 			GPIO_DRV_SetPinOutput(kWarpPinTPS82740_VSEL1);
 			GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL2);
-			GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL3);
+//			GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL3);
 
 			break;
 		}
@@ -795,7 +803,7 @@ setTPS82740CommonControlLines(uint16_t voltageMillivolts)
 		{
 			GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL1);
 			GPIO_DRV_SetPinOutput(kWarpPinTPS82740_VSEL2);
-			GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL3);
+//			GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL3);
 
 			break;
 		}
@@ -805,7 +813,7 @@ setTPS82740CommonControlLines(uint16_t voltageMillivolts)
 		{
 			GPIO_DRV_SetPinOutput(kWarpPinTPS82740_VSEL1);
 			GPIO_DRV_SetPinOutput(kWarpPinTPS82740_VSEL2);
-			GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL3);
+//			GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL3);
 
 			break;
 		}
@@ -815,7 +823,7 @@ setTPS82740CommonControlLines(uint16_t voltageMillivolts)
 		{
 			GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL1);
 			GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL2);
-			GPIO_DRV_SetPinOutput(kWarpPinTPS82740_VSEL3);
+//			GPIO_DRV_SetPinOutput(kWarpPinTPS82740_VSEL3);
 
 			break;
 		}
@@ -825,7 +833,7 @@ setTPS82740CommonControlLines(uint16_t voltageMillivolts)
 		{
 			GPIO_DRV_SetPinOutput(kWarpPinTPS82740_VSEL1);
 			GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL2);
-			GPIO_DRV_SetPinOutput(kWarpPinTPS82740_VSEL3);
+//			GPIO_DRV_SetPinOutput(kWarpPinTPS82740_VSEL3);
 
 			break;
 		}
@@ -835,7 +843,7 @@ setTPS82740CommonControlLines(uint16_t voltageMillivolts)
 		{
 			GPIO_DRV_ClearPinOutput(kWarpPinTPS82740_VSEL1);
 			GPIO_DRV_SetPinOutput(kWarpPinTPS82740_VSEL2);
-			GPIO_DRV_SetPinOutput(kWarpPinTPS82740_VSEL3);
+//			GPIO_DRV_SetPinOutput(kWarpPinTPS82740_VSEL3);
 
 			break;
 		}
@@ -845,7 +853,7 @@ setTPS82740CommonControlLines(uint16_t voltageMillivolts)
 		{
 			GPIO_DRV_SetPinOutput(kWarpPinTPS82740_VSEL1);
 			GPIO_DRV_SetPinOutput(kWarpPinTPS82740_VSEL2);
-			GPIO_DRV_SetPinOutput(kWarpPinTPS82740_VSEL3);
+//			GPIO_DRV_SetPinOutput(kWarpPinTPS82740_VSEL3);
 
 			break;
 		}
@@ -1248,7 +1256,11 @@ main(void)
 #endif
 
 #ifdef WARP_BUILD_ENABLE_DEVMMA8451Q
-	initMMA8451Q(	0x1C	/* i2cAddress */,	&deviceMMA8451QState	);
+	initMMA8451Q(	0x1D	/* i2cAddress */,	&deviceMMA8451QState	);
+#endif
+
+#ifdef WARP_BUILD_ENABLE_DEVINA219
+	initINA219(	0x40	/* i2cAddress */,	&deviceINA219State	);
 #endif
 
 #ifdef WARP_BUILD_ENABLE_DEVLPS25H
@@ -1353,1153 +1365,8 @@ main(void)
 	 *	Notreached
 	 */
 #endif
-
-	while (1)
-	{
-		/*
-		 *	Do not, e.g., lowPowerPinStates() on each iteration, because we actually
-		 *	want to use menu to progressiveley change the machine state with various
-		 *	commands.
-		 */
-
-		/*
-		 *	We break up the prints with small delays to allow us to use small RTT print
-		 *	buffers without overrunning them when at max CPU speed.
-		 */
-		SEGGER_RTT_WriteString(0, "\r\n\n\n\n[ *\t\t\t\tW\ta\tr\tp\t(rev. b)\t\t\t* ]\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_WriteString(0, "\r[  \t\t\t\t      Cambridge / Physcomplab   \t\t\t\t  ]\n\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-#ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
-		SEGGER_RTT_printf(0, "\r\tSupply=%dmV,\tDefault Target Read Register=0x%02x\n",
-								menuSupplyVoltage, menuRegisterAddress);
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_printf(0, "\r\tI2C=%dkb/s,\tSPI=%dkb/s,\tUART=%dkb/s,\tI2C Pull-Up=%d\n\n",
-								gWarpI2cBaudRateKbps, gWarpSpiBaudRateKbps, gWarpUartBaudRateKbps, menuI2cPullupValue);
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_printf(0, "\r\tSIM->SCGC6=0x%02x\t\tRTC->SR=0x%02x\t\tRTC->TSR=0x%02x\n", SIM->SCGC6, RTC->SR, RTC->TSR);
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_printf(0, "\r\tMCG_C1=0x%02x\t\t\tMCG_C2=0x%02x\t\tMCG_S=0x%02x\n", MCG_C1, MCG_C2, MCG_S);
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_printf(0, "\r\tMCG_SC=0x%02x\t\t\tMCG_MC=0x%02x\t\tOSC_CR=0x%02x\n", MCG_SC, MCG_MC, OSC_CR);
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_printf(0, "\r\tSMC_PMPROT=0x%02x\t\t\tSMC_PMCTRL=0x%02x\t\tSCB->SCR=0x%02x\n", SMC_PMPROT, SMC_PMCTRL, SCB->SCR);
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_printf(0, "\r\tPMC_REGSC=0x%02x\t\t\tSIM_SCGC4=0x%02x\tRTC->TPR=0x%02x\n\n", PMC_REGSC, SIM_SCGC4, RTC->TPR);
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-		SEGGER_RTT_printf(0, "\r\t%ds in RTC Handler to-date,\t%d Pmgr Errors\n", gWarpSleeptimeSeconds, powerManagerCallbackStructure.errorCount);
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-#else
-		SEGGER_RTT_WriteString(0, "\r\n\n\t\tWARNING: SEGGER_RTT_printf disabled in this firmware build.\n\t\tOnly showing output that does not require value formatting.\n\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-#endif
-
-		SEGGER_RTT_WriteString(0, "\rSelect:\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_WriteString(0, "\r- 'a': set default sensor.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_WriteString(0, "\r- 'b': set I2C baud rate.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_WriteString(0, "\r- 'c': set SPI baud rate.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_WriteString(0, "\r- 'd': set UART baud rate.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_WriteString(0, "\r- 'e': set default register address.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_WriteString(0, "\r- 'f': write byte to sensor.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_WriteString(0, "\r- 'g': set default SSSUPPLY.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_WriteString(0, "\r- 'h': powerdown command to all sensors.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_WriteString(0, "\r- 'i': set pull-up enable value.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-#ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
-		SEGGER_RTT_printf(0, "\r- 'j': repeat read reg 0x%02x on sensor #%d.\n", menuRegisterAddress, menuTargetSensor);
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-#endif
-
-		SEGGER_RTT_WriteString(0, "\r- 'k': sleep until reset.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_WriteString(0, "\r- 'l': send repeated byte on I2C.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_WriteString(0, "\r- 'm': send repeated byte on SPI.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_WriteString(0, "\r- 'n': enable SSSUPPLY.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_WriteString(0, "\r- 'o': disable SSSUPPLY.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_WriteString(0, "\r- 'p': switch to VLPR mode.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-#ifdef WARP_BUILD_ENABLE_DEVMAX11300
-		SEGGER_RTT_WriteString(0, "\r- 'q': MAX11300.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-#endif
-
-		SEGGER_RTT_WriteString(0, "\r- 'r': switch to RUN mode.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_WriteString(0, "\r- 's': power up all sensors.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_WriteString(0, "\r- 't': dump processor state.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		SEGGER_RTT_WriteString(0, "\r- 'u': set I2C address.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-#ifdef WARP_BUILD_ENABLE_DEVRV8803C7
-		SEGGER_RTT_WriteString(0, "\r- 'v': Enter VLLS0 low-power mode for 3s, then reset\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-#endif
-		SEGGER_RTT_WriteString(0, "\r- 'x': disable SWD and spin for 10 secs.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-#ifdef WARP_BUILD_ENABLE_THERMALCHAMBERANALYSIS
-		SEGGER_RTT_WriteString(0, "\r- 'y': stress test (need a force quit)\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-#endif
-
-		SEGGER_RTT_WriteString(0, "\r- 'z': dump all sensors data.\n");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-		SEGGER_RTT_WriteString(0, "\rEnter selection> ");
-		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-		key = SEGGER_RTT_WaitKey();
-		
-		switch (key)
-		{
-			/*
-			 *		Select sensor
-			 */
-			case 'a':
-			{
-				SEGGER_RTT_WriteString(0, "\r\tSelect:\n");
-#ifdef WARP_BUILD_ENABLE_DEVADXL362
-				SEGGER_RTT_WriteString(0, "\r\t- '1' ADXL362			(0x00--0x2D): 1.6V -- 3.5V\n");
-				#else
-				SEGGER_RTT_WriteString(0, "\r\t- '1' ADXL362			(0x00--0x2D): 1.6V -- 3.5V (compiled out) \n");
-#endif
-				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-#ifdef WARP_BUILD_ENABLE_DEVBMX055
-				SEGGER_RTT_WriteString(0, "\r\t- '2' BMX055accel		(0x00--0x3F): 2.4V -- 3.6V\n");
-				SEGGER_RTT_WriteString(0, "\r\t- '3' BMX055gyro			(0x00--0x3F): 2.4V -- 3.6V\n");
-				SEGGER_RTT_WriteString(0, "\r\t- '4' BMX055mag			(0x40--0x52): 2.4V -- 3.6V\n");
-				#else
-				SEGGER_RTT_WriteString(0, "\r\t- '2' BMX055accel 		(0x00--0x3F): 2.4V -- 3.6V (compiled out) \n");
-				SEGGER_RTT_WriteString(0, "\r\t- '3' BMX055gyro			(0x00--0x3F): 2.4V -- 3.6V (compiled out) \n");
-				SEGGER_RTT_WriteString(0, "\r\t- '4' BMX055mag			(0x40--0x52): 2.4V -- 3.6V (compiled out) \n");
-#endif
-				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-#ifdef WARP_BUILD_ENABLE_DEVMMA8451Q
-				SEGGER_RTT_WriteString(0, "\r\t- '5' MMA8451Q			(0x00--0x31): 1.95V -- 3.6V\n");
-				#else
-				SEGGER_RTT_WriteString(0, "\r\t- '5' MMA8451Q			(0x00--0x31): 1.95V -- 3.6V (compiled out) \n");
-#endif
-				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-#ifdef WARP_BUILD_ENABLE_DEVLPS25H
-				SEGGER_RTT_WriteString(0, "\r\t- '6' LPS25H			(0x08--0x24): 1.7V -- 3.6V\n");
-				#else
-				SEGGER_RTT_WriteString(0, "\r\t- '6' LPS25H			(0x08--0x24): 1.7V -- 3.6V (compiled out) \n");
-#endif
-				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-#ifdef WARP_BUILD_ENABLE_DEVMAG3110
-				SEGGER_RTT_WriteString(0, "\r\t- '7' MAG3110			(0x00--0x11): 1.95V -- 3.6V\n");
-				#else
-				SEGGER_RTT_WriteString(0, "\r\t- '7' MAG3110			(0x00--0x11): 1.95V -- 3.6V (compiled out) \n");
-#endif
-				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-#ifdef WARP_BUILD_ENABLE_DEVHDC1000
-				SEGGER_RTT_WriteString(0, "\r\t- '8' HDC1000			(0x00--0x1F): 3.0V -- 5.0V\n");
-				#else
-				SEGGER_RTT_WriteString(0, "\r\t- '8' HDC1000			(0x00--0x1F): 3.0V -- 5.0V (compiled out) \n");
-#endif
-				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-#ifdef WARP_BUILD_ENABLE_DEVSI7021
-				SEGGER_RTT_WriteString(0, "\r\t- '9' SI7021			(0x00--0x0F): 1.9V -- 3.6V\n");
-				#else
-				SEGGER_RTT_WriteString(0, "\r\t- '9' SI7021			(0x00--0x0F): 1.9V -- 3.6V (compiled out) \n");
-#endif
-				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-#ifdef WARP_BUILD_ENABLE_DEVL3GD20H
-				SEGGER_RTT_WriteString(0, "\r\t- 'a' L3GD20H			(0x0F--0x39): 2.2V -- 3.6V\n");
-				#else
-				SEGGER_RTT_WriteString(0, "\r\t- 'a' L3GD20H			(0x0F--0x39): 2.2V -- 3.6V (compiled out) \n");
-#endif
-				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-#ifdef WARP_BUILD_ENABLE_DEVBME680
-				SEGGER_RTT_WriteString(0, "\r\t- 'b' BME680			(0xAA--0xF8): 1.6V -- 3.6V\n");
-				#else
-				SEGGER_RTT_WriteString(0, "\r\t- 'b' BME680			(0xAA--0xF8): 1.6V -- 3.6V (compiled out) \n");
-#endif
-				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-#ifdef WARP_BUILD_ENABLE_DEVTCS34725
-				SEGGER_RTT_WriteString(0, "\r\t- 'd' TCS34725			(0x00--0x1D): 2.7V -- 3.3V\n");
-				#else
-				SEGGER_RTT_WriteString(0, "\r\t- 'd' TCS34725			(0x00--0x1D): 2.7V -- 3.3V (compiled out) \n");
-#endif
-				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-#ifdef WARP_BUILD_ENABLE_DEVSI4705
-				SEGGER_RTT_WriteString(0, "\r\t- 'e' SI4705			(n/a):        2.7V -- 5.5V\n");
-				#else
-				SEGGER_RTT_WriteString(0, "\r\t- 'e' SI4705			(n/a):        2.7V -- 5.5V (compiled out) \n");
-#endif
-				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-#ifdef WARP_BUILD_ENABLE_DEVPAN1326
-				SEGGER_RTT_WriteString(0, "\r\t- 'f' PAN1326			(n/a)\n");
-				#else
-				SEGGER_RTT_WriteString(0, "\r\t- 'f' PAN1326			(n/a) (compiled out) \n");
-#endif
-				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-#ifdef WARP_BUILD_ENABLE_DEVCCS811
-				SEGGER_RTT_WriteString(0, "\r\t- 'g' CCS811			(0x00--0xFF): 1.8V -- 3.6V\n");
-				#else
-				SEGGER_RTT_WriteString(0, "\r\t- 'g' CCS811			(0x00--0xFF): 1.8V -- 3.6V (compiled out) \n");
-#endif
-				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-#ifdef WARP_BUILD_ENABLE_DEVAMG8834
-				SEGGER_RTT_WriteString(0, "\r\t- 'h' AMG8834			(0x00--?): ?V -- ?V\n");
-				#else
-				SEGGER_RTT_WriteString(0, "\r\t- 'h' AMG8834			(0x00--?): ?V -- ?V (compiled out) \n");
-#endif
-				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-#ifdef WARP_BUILD_ENABLE_DEVAS7262
-				SEGGER_RTT_WriteString(0, "\r\t- 'j' AS7262			(0x00--0x2B): 2.7V -- 3.6V\n");
-				#else
-				SEGGER_RTT_WriteString(0, "\r\t- 'j' AS7262			(0x00--0x2B): 2.7V -- 3.6V (compiled out) \n");
-#endif
-				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-#ifdef WARP_BUILD_ENABLE_DEVAS7263
-				SEGGER_RTT_WriteString(0, "\r\t- 'k' AS7263			(0x00--0x2B): 2.7V -- 3.6V\n");
-				#else
-				SEGGER_RTT_WriteString(0, "\r\t- 'k' AS7263			(0x00--0x2B): 2.7V -- 3.6V (compiled out) \n");
-#endif
-				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-				SEGGER_RTT_WriteString(0, "\r\tEnter selection> ");
-				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-				key = SEGGER_RTT_WaitKey();
-
-				switch(key)
-				{
-#ifdef WARP_BUILD_ENABLE_DEVADXL362
-					case '1':
-					{
-						menuTargetSensor = kWarpSensorADXL362;
-
-						break;
-					}
-#endif
-#ifdef WARP_BUILD_ENABLE_DEVBMX055
-					case '2':
-					{
-						menuTargetSensor = kWarpSensorBMX055accel;
-						menuI2cDevice = &deviceBMX055accelState;
-						break;
-					}
-#endif
-#ifdef WARP_BUILD_ENABLE_DEVBMX055
-					case '3':
-					{
-						menuTargetSensor = kWarpSensorBMX055gyro;
-						menuI2cDevice = &deviceBMX055gyroState;
-						break;
-					}
-#endif
-#ifdef WARP_BUILD_ENABLE_DEVBMX055
-					case '4':
-					{
-						menuTargetSensor = kWarpSensorBMX055mag;
-						menuI2cDevice = &deviceBMX055magState;
-						break;
-					}
-#endif
-#ifdef WARP_BUILD_ENABLE_DEVMMA8451Q
-					case '5':
-					{
-						menuTargetSensor = kWarpSensorMMA8451Q;
-						menuI2cDevice = &deviceMMA8451QState;
-						break;
-					}
-#endif
-#ifdef WARP_BUILD_ENABLE_DEVLPS25H
-					case '6':
-					{
-						menuTargetSensor = kWarpSensorLPS25H;
-						menuI2cDevice = &deviceLPS25HState;
-						break;
-					}
-#endif
-#ifdef WARP_BUILD_ENABLE_DEVMAG3110
-					case '7':
-					{
-						menuTargetSensor = kWarpSensorMAG3110;
-						menuI2cDevice = &deviceMAG3110State;
-						break;
-					}
-#endif
-#ifdef WARP_BUILD_ENABLE_DEVHDC1000
-					case '8':
-					{
-						menuTargetSensor = kWarpSensorHDC1000;
-						menuI2cDevice = &deviceHDC1000State;
-						break;
-					}
-#endif
-#ifdef WARP_BUILD_ENABLE_DEVSI7021
-					case '9':
-					{
-						menuTargetSensor = kWarpSensorSI7021;
-						menuI2cDevice = &deviceSI7021State;
-						break;
-					}
-#endif
-#ifdef WARP_BUILD_ENABLE_DEVL3GD20H
-					case 'a':
-					{
-						menuTargetSensor = kWarpSensorL3GD20H;
-						menuI2cDevice = &deviceL3GD20HState;
-						break;
-					}
-#endif
-#ifdef WARP_BUILD_ENABLE_DEVBME680
-					case 'b':
-					{
-						menuTargetSensor = kWarpSensorBME680;
-						menuI2cDevice = &deviceBME680State;
-						break;
-					}
-#endif
-#ifdef WARP_BUILD_ENABLE_DEVTCS34725
-					case 'd':
-					{
-						menuTargetSensor = kWarpSensorTCS34725;
-						menuI2cDevice = &deviceTCS34725State;
-						break;
-					}
-#endif
-#ifdef WARP_BUILD_ENABLE_DEVSI4705
-					case 'e':
-					{
-						menuTargetSensor = kWarpSensorSI4705;
-						menuI2cDevice = &deviceSI4705State;
-						break;
-					}
-#endif
-#ifdef WARP_BUILD_ENABLE_DEVPAN1326
-					case 'f':
-					{
-						menuTargetSensor = kWarpSensorPAN1326;
-
-						break;
-					}
-#endif
-#ifdef WARP_BUILD_ENABLE_DEVCCS811
-					case 'g':
-					{
-						menuTargetSensor = kWarpSensorCCS811;
-						menuI2cDevice = &deviceCCS811State;
-						break;
-					}
-#endif
-#ifdef WARP_BUILD_ENABLE_DEVAMG8834
-					case 'h':
-					{
-						menuTargetSensor = kWarpSensorAMG8834;
-						menuI2cDevice = &deviceAMG8834State;
-						break;
-					}
-#endif
-#ifdef WARP_BUILD_ENABLE_DEVAS7262
-					case 'j':
-					{
-						menuTargetSensor = kWarpSensorAS7262;
-						menuI2cDevice = &deviceAS7262State;
-						break;
-					}
-#endif
-#ifdef WARP_BUILD_ENABLE_DEVAS7263
-					case 'k':
-					{
-						menuTargetSensor = kWarpSensorAS7263;
-						menuI2cDevice = &deviceAS7263State;
-						break;
-					}
-#endif
-					default:
-					{
-#ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
-						SEGGER_RTT_printf(0, "\r\tInvalid selection '%c' !\n", key);
-#endif
-					}
-				}
-
-				break;
-			}
-
-			/*
-			 *	Change default I2C baud rate
-			 */
-			case 'b':
-			{
-				SEGGER_RTT_WriteString(0, "\r\n\tSet I2C baud rate in kbps (e.g., '0001')> ");
-				gWarpI2cBaudRateKbps = read4digits();
-
-				/*
-				 *	Round 9999kbps to 10Mbps
-				 */
-				if (gWarpI2cBaudRateKbps == 9999)
-				{
-					gWarpI2cBaudRateKbps = 10000;
-				}
-
-#ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
-				SEGGER_RTT_printf(0, "\r\n\tI2C baud rate set to %d kb/s", gWarpI2cBaudRateKbps);
-#endif
-
-				break;
-			}
-
-			/*
-			 *	Change default SPI baud rate
-			 */
-			case 'c':
-			{
-				SEGGER_RTT_WriteString(0, "\r\n\tSet SPI baud rate in kbps (e.g., '0001')> ");
-				gWarpSpiBaudRateKbps = read4digits();
-
-				/*
-				 *	Round 9999kbps to 10Mbps
-				 */
-				if (gWarpSpiBaudRateKbps == 9999)
-				{
-					gWarpSpiBaudRateKbps = 10000;
-				}
-
-#ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
-				SEGGER_RTT_printf(0, "\r\n\tSPI baud rate: %d kb/s", gWarpSpiBaudRateKbps);
-#endif
-
-				break;
-			}
-
-			/*
-			 *	Change default UART baud rate
-			 */
-			case 'd':
-			{
-				SEGGER_RTT_WriteString(0, "\r\n\tSet UART baud rate in kbps (e.g., '0001')> ");
-				gWarpUartBaudRateKbps = read4digits();
-#ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
-				SEGGER_RTT_printf(0, "\r\n\tUART baud rate: %d kb/s", gWarpUartBaudRateKbps);
-#endif
-
-				break;
-			}
-
-			/*
-			 *	Set register address for subsequent operations
-			 */
-			case 'e':
-			{
-				SEGGER_RTT_WriteString(0, "\r\n\tEnter 2-nybble register hex address (e.g., '3e')> ");
-				menuRegisterAddress = readHexByte();
-#ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
-				SEGGER_RTT_printf(0, "\r\n\tEntered [0x%02x].\n\n", menuRegisterAddress);
-#endif
-
-				break;
-			}
-
-			/*
-			 *	Write byte to sensor
-			 */
-			case 'f':
-			{
-				uint8_t		i2cAddress, payloadByte[1], commandByte[1];
-				i2c_status_t	i2cStatus;
-				WarpStatus	status;
-
-
-				USED(status);
-				SEGGER_RTT_WriteString(0, "\r\n\tEnter I2C addr. (e.g., '0f') or '99' for SPI > ");
-				i2cAddress = readHexByte();
-#ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
-				SEGGER_RTT_printf(0, "\r\n\tEntered [0x%02x].\n", i2cAddress);
-#endif
-
-				SEGGER_RTT_WriteString(0, "\r\n\tEnter hex byte to send (e.g., '0f')> ");
-				payloadByte[0] = readHexByte();
-#ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
-				SEGGER_RTT_printf(0, "\r\n\tEntered [0x%02x].\n", payloadByte[0]);
-#endif
-
-				if (i2cAddress == 0x99)
-				{
-#ifdef WARP_BUILD_ENABLE_DEVADXL362
-#ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
-					SEGGER_RTT_printf(0, "\r\n\tWriting [0x%02x] to SPI register [0x%02x]...\n", payloadByte[0], menuRegisterAddress);
-#endif
-					status = writeSensorRegisterADXL362(	0x0A			/* command == write register	*/,
-										menuRegisterAddress,
-										payloadByte[0]		/* writeValue			*/
-									);
-					if (status != kWarpStatusOK)
-					{
-#ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
-						SEGGER_RTT_printf(0, "\r\n\tSPI write failed, error %d.\n\n", status);
-#endif
-					}
-					#else
-					SEGGER_RTT_WriteString(0, "\r\n\tSPI write failed. ADXL362 Disabled");
-#endif
-				}
-				else
-				{
-					i2c_device_t slave =
-					{
-						.address = i2cAddress,
-						.baudRate_kbps = gWarpI2cBaudRateKbps
-					};
-
-					enableSssupply(menuSupplyVoltage);
-					enableI2Cpins(menuI2cPullupValue);
-
-					commandByte[0] = menuRegisterAddress;
-					i2cStatus = I2C_DRV_MasterSendDataBlocking(
-											0 /* I2C instance */,
-											&slave,
-											commandByte,
-											1,
-											payloadByte,
-											1,
-											gWarpI2cTimeoutMilliseconds);
-					if (i2cStatus != kStatus_I2C_Success)
-					{
-#ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
-						SEGGER_RTT_printf(0, "\r\n\tI2C write failed, error %d.\n\n", i2cStatus);
-#endif
-					}
-					disableI2Cpins();
-				}
-
-				/*
-				 *	NOTE: do not disable the supply here, because we typically want to build on the effect of this register write command.
-				 */
-
-				break;
-			}
-
-			/*
-			 *	Configure default TPS82740 voltage
-			 */
-			case 'g':
-			{
-				SEGGER_RTT_WriteString(0, "\r\n\tOverride SSSUPPLY in mV (e.g., '1800')> ");
-				menuSupplyVoltage = read4digits();
-#ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
-				SEGGER_RTT_printf(0, "\r\n\tOverride SSSUPPLY set to %d mV", menuSupplyVoltage);
-#endif
-
-				break;
-			}
-
-			/*
-			 *	Activate low-power modes in all sensors.
-			 */
-			case 'h':
-			{
-				SEGGER_RTT_WriteString(0, "\r\n\tNOTE: First power sensors and enable I2C\n\n");
-				activateAllLowPowerSensorModes(true /* verbose */);
-
-				break;
-			}
-
-			/*
-			 *	Configure default pullup enable value
-			 */
-			case 'i':
-			{
-				SEGGER_RTT_WriteString(0, "\r\n\tDefault pullup enable value in kiloOhms (e.g., '0000')> ");
-				menuI2cPullupValue = read4digits();
-
-#ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
-				SEGGER_RTT_printf(0, "\r\n\tI2cPullupValue set to %d\n", menuI2cPullupValue);
-#endif
-
-				break;
-			}
-
-			/*
-			 *	Start repeated read
-			 */
-			case 'j':
-			{
-				bool		autoIncrement, chatty;
-				int		spinDelay, repetitionsPerAddress, chunkReadsPerAddress;
-				int		adaptiveSssupplyMaxMillivolts;
-				uint8_t		referenceByte;
-
-#ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
-				SEGGER_RTT_printf(0, "\r\n\tAuto-increment from base address 0x%02x? ['0' | '1']> ", menuRegisterAddress);
-				#else
-				SEGGER_RTT_WriteString(0, "\r\n\tChunk reads per address (e.g., '1')> ");
-#endif
-
-				autoIncrement = SEGGER_RTT_WaitKey() - '0';
-
-				SEGGER_RTT_WriteString(0, "\r\n\tChunk reads per address (e.g., '1')> ");
-				chunkReadsPerAddress = SEGGER_RTT_WaitKey() - '0';
-
-				SEGGER_RTT_WriteString(0, "\r\n\tChatty? ['0' | '1']> ");
-				chatty = SEGGER_RTT_WaitKey() - '0';
-
-				SEGGER_RTT_WriteString(0, "\r\n\tInter-operation spin delay in milliseconds (e.g., '0000')> ");
-				spinDelay = read4digits();
-
-				SEGGER_RTT_WriteString(0, "\r\n\tRepetitions per address (e.g., '0000')> ");
-				repetitionsPerAddress = read4digits();
-
-				SEGGER_RTT_WriteString(0, "\r\n\tMaximum voltage for adaptive supply (e.g., '0000')> ");
-				adaptiveSssupplyMaxMillivolts = read4digits();
-
-				SEGGER_RTT_WriteString(0, "\r\n\tReference byte for comparisons (e.g., '3e')> ");
-				referenceByte = readHexByte();
-
-#ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
-				SEGGER_RTT_printf(0, "\r\n\tRepeating dev%d @ 0x%02x, reps=%d, pull=%d, delay=%dms:\n\n",
-					menuTargetSensor, menuRegisterAddress, repetitionsPerAddress, menuI2cPullupValue, spinDelay);
-#endif
-
-				repeatRegisterReadForDeviceAndAddress(	menuTargetSensor /*warpSensorDevice*/,
-									menuRegisterAddress /*baseAddress */,
-									menuI2cPullupValue,
-									autoIncrement /*autoIncrement*/,
-									chunkReadsPerAddress,
-									chatty,
-									spinDelay,
-									repetitionsPerAddress,
-									menuSupplyVoltage,
-									adaptiveSssupplyMaxMillivolts,
-									referenceByte
-								);
-
-				break;
-			}
-
-			/*
-			 *	Sleep for 30 seconds.
-			 */
-			case 'k':
-			{
-				SEGGER_RTT_WriteString(0, "\r\n\tSleeping until system reset...\n");
-				sleepUntilReset();
-
-				break;
-			}
-
-			/*
-			 *	Send repeated byte on I2C or SPI
-			 */
-			case 'l':
-			case 'm':
-			{
-				uint8_t		outBuffer[1];
-				int		repetitions;
-
-				SEGGER_RTT_WriteString(0, "\r\n\tNOTE: First power sensors and enable I2C\n\n");
-				SEGGER_RTT_WriteString(0, "\r\n\tByte to send (e.g., 'F0')> ");
-				outBuffer[0] = readHexByte();
-
-				SEGGER_RTT_WriteString(0, "\r\n\tRepetitions (e.g., '0000')> ");
-				repetitions = read4digits();
-
-				if (key == 'l')
-				{
-#ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
-					SEGGER_RTT_printf(0, "\r\n\tSending %d repetitions of [0x%02x] on I2C, i2cPullupEnable=%d, SSSUPPLY=%dmV\n\n",
-						repetitions, outBuffer[0], menuI2cPullupValue, menuSupplyVoltage);
-#endif
-					for (int i = 0; i < repetitions; i++)
-					{
-						writeByteToI2cDeviceRegister(0xFF, true /* sedCommandByte */, outBuffer[0] /* commandByte */, false /* sendPayloadByte */, 0 /* payloadByte */);
-					}
-				}
-				else
-				{
-#ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
-					SEGGER_RTT_printf(0, "\r\n\tSending %d repetitions of [0x%02x] on SPI, SSSUPPLY=%dmV\n\n",
-						repetitions, outBuffer[0], menuSupplyVoltage);
-#endif
-					for (int i = 0; i < repetitions; i++)
-					{
-						writeBytesToSpi(outBuffer /* payloadByte */, 1 /* payloadLength */);
-					}
-				}
-
-				break;
-			}
-
-
-			/*
-			 *	enable SSSUPPLY
-			 */
-			case 'n':
-			{
-				enableSssupply(menuSupplyVoltage);
-				break;
-			}
-
-			/*
-			 *	disable SSSUPPLY
-			 */
-			case 'o':
-			{
-				disableSssupply();
-				break;
-			}
-
-			/*
-			 *	Switch to VLPR
-			 */
-			case 'p':
-			{
-				warpSetLowPowerMode(kWarpPowerModeVLPR, 0 /* sleep seconds : irrelevant here */);
-				break;
-			}
-#ifdef WARP_BUILD_ENABLE_DEVMAX11300
-			case 'q':
-			{
-				SEGGER_RTT_printf(0, "\r\tMAX11300 Configuration\n");
-				devMAX11300();
-				break;
-			}
-#endif
-
-			/*
-			 *	Switch to RUN
-			 */
-			case 'r':
-			{
-				warpSetLowPowerMode(kWarpPowerModeRUN, 0 /* sleep seconds : irrelevant here */);
-				break;
-			}
-
-			/*
-			 *	Power up all sensors
-			 */
-			case 's':
-			{
-				SEGGER_RTT_WriteString(0, "\r\n\tNOTE: First power sensors and enable I2C\n\n");
-				powerupAllSensors();
-				break;
-			}
-
-			/*
-			 *	Dump processor state
-			 */
-			case 't':
-			{
-				dumpProcessorState();
-				break;
-			}
-
-			case 'u':
-			{
-				if (menuI2cDevice == NULL)
-				{
-					SEGGER_RTT_WriteString(0, "\r\n\tCannot set I2C address: First set the default I2C device.\n");
-				}
-				else
-				{
-					SEGGER_RTT_WriteString(0, "\r\n\tSet I2C address of the selected sensor(e.g., '1C')> ");
-					uint8_t address = readHexByte();
-					menuI2cDevice->i2cAddress = address;
-				}
-
-				break;
-			}
-#ifdef WARP_BUILD_ENABLE_DEVRV8803C7
-			case 'v':
-			{
-				SEGGER_RTT_WriteString(0, "\r\n\tEnabling I2C pins\n");
-				enableI2Cpins(menuI2cPullupValue);
-				SEGGER_RTT_WriteString(0, "\r\n\tSleeping for 3 seconds, then resetting\n");
-				warpSetLowPowerMode(kWarpPowerModeVLLS0, 3 /* sleep seconds */);
-				SEGGER_RTT_WriteString(0, "\r\n\tThis should never happen...\n");
-			}
-#endif
-			/*
-			 *	Simply spin for 10 seconds. Since the SWD pins should only be enabled when we are waiting for key at top of loop (or toggling after printf), during this time there should be no interference from the SWD.
-			 */
-			case 'x':
-			{
-				SEGGER_RTT_WriteString(0, "\r\n\tSpinning for 10 seconds...\n");
-				OSA_TimeDelay(10000);
-				SEGGER_RTT_WriteString(0, "\r\tDone.\n\n");
-
-				break;
-			}
-
-			/*
-			 *	Stress test, including bit-wise toggling and checksum, as well as extensive add and mul, with continous read and write to I2C MMA8451Q
-			 */
-#ifdef WARP_BUILD_ENABLE_THERMALCHAMBERANALYSIS
-			case 'y':
-			{
-				/*
-				 *	I2C MMA8451Q initialization
-				 */
-
-				WarpStatus i2cWriteStatusA, i2cWriteStatusB;
-				WarpStatus i2cReadStatusX = kWarpStatusDeviceCommunicationFailed;
-				WarpStatus i2cReadStatusY = kWarpStatusDeviceCommunicationFailed;
-				WarpStatus i2cReadStatusZ = kWarpStatusDeviceCommunicationFailed;
-
-				enableI2Cpins(menuI2cPullupValue);
-				i2cWriteStatusA = writeSensorRegisterMMA8451Q(0x09 /* register address F_SETUP */,
-										0x00 /* payload: Disable FIFO */,
-										1);
-
-				i2cWriteStatusB = writeSensorRegisterMMA8451Q(0x2A /* register address */,
-										0x03 /* payload: Enable fast read 8bit, 800Hz, normal, active mode */,
-										1);
-
-				if((i2cWriteStatusA != kWarpStatusOK) && (i2cWriteStatusB != kWarpStatusOK))
-				{
-					SEGGER_RTT_printf(0, "\nError when writing to I2C device");
-					for(int errorLED = 0; errorLED < 5; errorLED++)
-					{
-						/*
-						 *	Error when writing to I2C device
-						 *	LED pattern : All On -> All off -> Red
-						 */
-						GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Red);
-						GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Blue);
-						GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Green);
-						OSA_TimeDelay(100);
-						GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Red);
-						GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Blue);
-						GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Green);
-						OSA_TimeDelay(100);
-						GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Red);
-						OSA_TimeDelay(1000);
-					}
-				}
-				/*
-				 *	Fill up the remaining memory space using a fixed size array
-				 *	The size of this array is highly dependent on the firmware code size
-				 */
-				WarpThermalChamberKL03MemoryFill	KL03MemoryFill;
-				KL03MemoryFill.outputBuffer[0] = 0;
-				KL03MemoryFill.outputBuffer[1] = 0;
-				KL03MemoryFill.outputBuffer[2] = 0;
-
-				GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Blue);
-				GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Red);
-				GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Green);
-				OSA_TimeDelay(1000);
-				GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Blue);
-				OSA_TimeDelay(1000);
-				GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Blue);
-				OSA_TimeDelay(1000);
-				SEGGER_RTT_printf(0, "\n\nFilling memory");
-
-				for (uint16_t i = 0; i < sizeof(KL03MemoryFill.memoryFillingBuffer); i++)
-				{
-					if(i % 2 == 0)
-					{
-						KL03MemoryFill.memoryFillingBuffer[i] = kWarpThermalChamberMemoryFillEvenComponent;
-					}
-					if(i % 2 != 0)
-					{
-						KL03MemoryFill.memoryFillingBuffer[i] = kWarpThermalChamberMemoryFillOddComponent;
-					}
-				}
-
-				uint8_t checkSumValue = checkSum(KL03MemoryFill.memoryFillingBuffer,
-								sizeof(KL03MemoryFill.memoryFillingBuffer));
-
-
-				while (1)
-				{
-					/*
-					 *	(1) addAndMultiplicationLoop performs basic multiplication and addition
-					 *	(2) bit-wise toggling and checksum operations are performed
-					 *	(3) checking the I2C read and write status
-					 */
-
-					GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Green);
-					GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Red);
-					GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Blue);
-					OSA_TimeDelay(100);
-
-					addAndMultiplicationBusyLoop(kWarpThermalChamberBusyLoopCountOffset);
-
-					/*
-					 *	Error-less operation
-					 *	LED pattern : Blue -> Red -> Blue
-					 */
-					GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Blue);
-					GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Red);
-					GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Green);
-					OSA_TimeDelay(100);
-					GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Red);
-					GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Blue);
-					GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Green);
-					OSA_TimeDelay(100);
-					GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Blue);
-					GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Red);
-					GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Green);
-					OSA_TimeDelay(100);
-
-					for(uint16_t j = 0; j < sizeof(KL03MemoryFill.memoryFillingBuffer); j++)
-					{
-						KL03MemoryFill.memoryFillingBuffer[j] = ~KL03MemoryFill.memoryFillingBuffer[j];
-					}
-					SEGGER_RTT_printf(0, "\nBit-wise flip");
-
-					uint8_t checkSumValueOnline = checkSum(KL03MemoryFill.memoryFillingBuffer,
-										sizeof(KL03MemoryFill.memoryFillingBuffer));
-					if(checkSumValue == checkSumValueOnline)
-					{
-						i2cWriteStatusA = writeSensorRegisterMMA8451Q(0x09 /* register address F_SETUP */,
-												0x00 /* payload: Disable FIFO */,
-												1);
-
-						i2cWriteStatusB = writeSensorRegisterMMA8451Q(0x2A /* register address */,
-												0x03 /* payload: Enable fast read 8bit, 800Hz, normal, active mode */,
-												1);
-						SEGGER_RTT_printf(0, "\nWriting to I2C device");
-						if((i2cWriteStatusA != kWarpStatusOK) && (i2cWriteStatusB != kWarpStatusOK))
-						{
-							SEGGER_RTT_printf(0, "\nError when writing to I2C device");
-							for(int errorLED = 0; errorLED < 5; errorLED++)
-							{
-								/*
-								 *	Error when writing to I2C device
-								 *	LED pattern : All On -> All off -> Red
-								 */
-								GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Red);
-								GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Blue);
-								GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Green);
-								OSA_TimeDelay(100);
-								GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Red);
-								GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Blue);
-								GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Green);
-								OSA_TimeDelay(100);
-								GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Red);
-								OSA_TimeDelay(1000);
-							}
-						}
-
-						i2cReadStatusX = readSensorRegisterMMA8451Q(0x01);
-						if(i2cReadStatusX == kWarpStatusOK)
-						{
-							KL03MemoryFill.outputBuffer[0] = deviceMMA8451QState.i2cBuffer[0];
-							SEGGER_RTT_printf(0, "\nReading from sensor X: %d", KL03MemoryFill.outputBuffer[0]);
-
-							i2cReadStatusY = readSensorRegisterMMA8451Q(0x03);
-							if(i2cReadStatusY == kWarpStatusOK)
-							{
-								KL03MemoryFill.outputBuffer[1] = deviceMMA8451QState.i2cBuffer[0];
-								SEGGER_RTT_printf(0, "\nReading from sensor Y: %d", KL03MemoryFill.outputBuffer[1]);
-
-								i2cReadStatusZ = readSensorRegisterMMA8451Q(0x05);
-								if(i2cReadStatusZ == kWarpStatusOK)
-								{
-									KL03MemoryFill.outputBuffer[2] = deviceMMA8451QState.i2cBuffer[0];
-									SEGGER_RTT_printf(0, "\nReading from sensor Z: %d", KL03MemoryFill.outputBuffer[2]);
-								}
-							}
-						}
-
-						if((i2cReadStatusX != kWarpStatusOK) && (i2cReadStatusY != kWarpStatusOK) &&
-								(i2cReadStatusZ != kWarpStatusOK))
-						{
-							SEGGER_RTT_printf(0, "\nError when reading from I2C device");
-							for(int errorLED = 0; errorLED < 5; errorLED++)
-							{
-								/*
-								 *	Error when reading from I2C device
-								 *	LED pattern : Red -> All off
-								 */
-								GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Red);
-								GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Blue);
-								GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Green);
-								OSA_TimeDelay(100);
-								GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Red);
-								GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Blue);
-								GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Green);
-								OSA_TimeDelay(100);
-							}
-						}
-						else
-						{
-							KL03MemoryFill.outputBuffer[0] = 0;
-							KL03MemoryFill.outputBuffer[1] = 0;
-							KL03MemoryFill.outputBuffer[2] = 0;
-						}
-					}
-					else
-					{
-						while(1)
-						{
-							/*
-							 *	Error in checksum leading to error in bit wise operation
-							 *	LED pattern : Red -> All off
-							 */
-							SEGGER_RTT_printf(0, "\nError in checksum");
-							GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Red);
-							GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Blue);
-							GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Green);
-							OSA_TimeDelay(100);
-							GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Red);
-							OSA_TimeDelay(100);
-
-							SEGGER_RTT_printf(0, "\nWriting to I2C device");
-							i2cWriteStatusA = writeSensorRegisterMMA8451Q(0x09 /* register address F_SETUP */,
-												0x00 /* payload: Disable FIFO */,
-												1);
-
-							i2cWriteStatusB = writeSensorRegisterMMA8451Q(0x2A /* register address */,
-												0x03 /* payload: Enable fast read 8bit, 800Hz, normal, active mode */,
-												1);
-
-							if((i2cWriteStatusA != kWarpStatusOK) && (i2cWriteStatusB != kWarpStatusOK))
-							{
-								SEGGER_RTT_printf(0, "\nError when writing to I2C device");
-								for(int errorLED = 0; errorLED < 5; errorLED++)
-								{
-									/*
-									 *	Error when writing to I2C device
-									 *	LED pattern : All On -> All off -> Red
-									 */
-									GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Red);
-									GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Blue);
-									GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Green);
-									OSA_TimeDelay(100);
-									GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Red);
-									GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Blue);
-									GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Green);
-									OSA_TimeDelay(100);
-									GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Red);
-									OSA_TimeDelay(1000);
-								}
-							}
-
-							i2cReadStatusX = readSensorRegisterMMA8451Q(0x01);
-							if(i2cReadStatusX == kWarpStatusOK)
-							{
-								KL03MemoryFill.outputBuffer[0] = deviceMMA8451QState.i2cBuffer[0];
-								SEGGER_RTT_printf(0, "\nReading from sensor X: %d", KL03MemoryFill.outputBuffer[0]);
-
-								i2cReadStatusY = readSensorRegisterMMA8451Q(0x03);
-								if(i2cReadStatusY == kWarpStatusOK)
-								{
-									KL03MemoryFill.outputBuffer[1] = deviceMMA8451QState.i2cBuffer[0];
-									SEGGER_RTT_printf(0, "\nReading from sensor Y: %d", KL03MemoryFill.outputBuffer[1]);
-
-									i2cReadStatusZ = readSensorRegisterMMA8451Q(0x05);
-									if(i2cReadStatusZ == kWarpStatusOK)
-									{
-										KL03MemoryFill.outputBuffer[2] = deviceMMA8451QState.i2cBuffer[0];
-										SEGGER_RTT_printf(0, "\nReading from sensor Z: %d", KL03MemoryFill.outputBuffer[2]);
-									}
-								}
-							}
-
-							if((i2cReadStatusX != kWarpStatusOK) && (i2cReadStatusY != kWarpStatusOK) &&
-								(i2cReadStatusZ != kWarpStatusOK))
-							{
-								SEGGER_RTT_printf(0, "\nError when reading from I2C device");
-								for(int errorLED = 0; errorLED < 5; errorLED++)
-								{
-									/*
-									 *	Error when reading from I2C device
-									 *	LED pattern : All on -> All off
-									 */
-									GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Red);
-									GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Blue);
-									GPIO_DRV_ClearPinOutput(kWarpPinFRDMKL03LED_Green);
-									OSA_TimeDelay(100);
-									GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Red);
-									GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Blue);
-									GPIO_DRV_SetPinOutput(kWarpPinFRDMKL03LED_Green);
-									OSA_TimeDelay(100);
-								}
-							}
-						}
-					}
-				}
-				disableI2Cpins();
-
-				break;
-			}
-#endif
-			/*
-			 *	Dump all the sensor data in one go
-			 */
-			case 'z':
-			{
-				bool		hexModeFlag;
-
-				SEGGER_RTT_WriteString(0, "\r\n\tEnabling I2C pins...\n");
-				enableI2Cpins(menuI2cPullupValue);
-
-				SEGGER_RTT_WriteString(0, "\r\n\tHex or converted mode? ('h' or 'c')> ");
-				key = SEGGER_RTT_WaitKey();
-				hexModeFlag = (key == 'h' ? 1 : 0);
-
-				SEGGER_RTT_WriteString(0, "\r\n\tSet the time delay between each run in milliseconds (e.g., '1234')> ");
-				uint16_t	menuDelayBetweenEachRun = read4digits();
-				SEGGER_RTT_printf(0, "\r\n\tDelay between read batches set to %d milliseconds.\n\n", menuDelayBetweenEachRun);
-				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-
-				printAllSensors(true /* printHeadersAndCalibration */, hexModeFlag, menuDelayBetweenEachRun, menuI2cPullupValue);
-
-				/*
-				 *	Not reached (printAllSensors() does not return)
-				 */
-				disableI2Cpins();
-
-				break;
-			}
-
-
-			/*
-			 *	Ignore naked returns.
-			 */
-			case '\n':
-			{
-				SEGGER_RTT_WriteString(0, "\r\tPayloads make rockets more than just fireworks.");
-				break;
-			}
-
-			default:
-			{
-				#ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
-				SEGGER_RTT_printf(0, "\r\tInvalid selection '%c' !\n", key);
-				#endif
-			}
-		}
-	}
+	mainScript();
+//	int devInit = devSSD1331init();
 
 	return 0;
 }
@@ -2527,6 +1394,10 @@ printAllSensors(bool printHeadersAndCalibration, bool hexModeFlag, int menuDelay
 					0x01,/* Normal read 8bit, 800Hz, normal, active mode */
 					i2cPullupValue
 					);
+	#endif
+	#ifdef WARP_BUILD_ENABLE_DEVINA219
+	numberOfConfigErrors += configureSensorINA219(i2cPullupValue);
+	numberOfConfigErrors += calibrateSensorINA219(i2cPullupValue);
 	#endif
 	#ifdef WARP_BUILD_ENABLE_DEVMAG3110
 	numberOfConfigErrors += configureSensorMAG3110(	0x00,/*	Payload: DR 000, OS 00, 80Hz, ADC 1280, Full 16bit, standby mode to set up register*/
@@ -2669,6 +1540,9 @@ printAllSensors(bool printHeadersAndCalibration, bool hexModeFlag, int menuDelay
 		#endif
 		#ifdef WARP_BUILD_ENABLE_DEVMMA8451Q
 		printSensorDataMMA8451Q(hexModeFlag);
+		#endif
+		#ifdef WARP_BUILD_ENABLE_DEVINA219
+		printSensorDataINA219(hexModeFlag);
 		#endif
 		#ifdef WARP_BUILD_ENABLE_DEVMAG3110
 		printSensorDataMAG3110(hexModeFlag);
@@ -3318,37 +2192,37 @@ repeatRegisterReadForDeviceAndAddress(WarpSensorDevice warpSensorDevice, uint8_t
 					chatty				/*	chatty				*/
 					);
 			#else
-			SEGGER_RTT_WriteString(0, "\r\n\tAS7262 Read Aborted. Device Disabled :( ");
+			SEGGER_RTT_WriteString(0, "\r\n\tAS7263 Read Aborted. Device Disabled :( ");
 #endif
 			break;
 		}
 
-		case kWarpSensorAS7263:
+		case kWarpSensorINA219:
 		{
 			/*
-			 *	AS7263: VDD 2.7--3.6
-			 */
-#ifdef WARP_BUILD_ENABLE_DEVAS7263
-			loopForSensor(	"\r\nAS7263:\n\r",		/*	tagString			*/
-					&readSensorRegisterAS7263,	/*	readSensorRegisterFunction	*/
-					&deviceAS7263State,		/*	i2cDeviceState			*/
-					NULL,				/*	spiDeviceState			*/
-					baseAddress,			/*	baseAddress			*/
-					0x00,				/*	minAddress			*/
-					0x2B,				/*	maxAddress			*/
-					repetitionsPerAddress,		/*	repetitionsPerAddress		*/
-					chunkReadsPerAddress,		/*	chunkReadsPerAddress		*/
-					spinDelay,			/*	spinDelay			*/
-					autoIncrement,			/*	autoIncrement			*/
-					sssupplyMillivolts,		/*	sssupplyMillivolts		*/
-					referenceByte,			/*	referenceByte			*/
-					adaptiveSssupplyMaxMillivolts,	/*	adaptiveSssupplyMaxMillivolts	*/
-					chatty				/*	chatty				*/
+			 *      INA219: VDD 3.0--5.5
+		         */
+#ifdef WARP_BUILD_ENABLE_DEVINA219
+			loopForSensor(  "\r\nINA219:\n\r",              /*      tagString                       */
+					&readSensorRegisterINA219,	/*      readSensorRegisterFunction      */
+					&deviceINA219State,		/*      i2cDeviceState                  */
+		        		NULL,			        /*      spiDeviceState                  */
+					baseAddress,   		        /*      baseAddress                     */
+					0x00,               		/*      minAddress                      */
+					0x05,			        /*      maxAddress                      */
+					repetitionsPerAddress, 		/*      repetitionsPerAddress           */
+					chunkReadsPerAddress,   	/*      chunkReadsPerAddress		*/
+					spinDelay,		        /*      spinDelay                       */
+					autoIncrement,  		/*      autoIncrement                   */
+					sssupplyMillivolts,     	/*      sssupplyMillivolts              */
+					referenceByte,     		/*      referenceByte                   */
+					adaptiveSssupplyMaxMillivolts,  /*      adaptiveSssupplyMaxMillivolts   */
+					chatty   		        /*      chatty                          */
 					);
 			#else
-			SEGGER_RTT_WriteString(0, "\r\n\tAS7263 Read Aborted. Device Disabled :( ");
+			SEGGER_RTT_WriteString(0, "\r\n\tINA219 Read Aborted. Device Disabled :( ");
 #endif
-			break;
+	                break;
 		}
 
 		default:
@@ -3650,27 +2524,25 @@ activateAllLowPowerSensorModes(bool verbose)
 #endif
 
 
-
-
 	/*
 	 *	SI4705: Send a POWER_DOWN command (byte 0x17). See AN332 page 124 and page 132.
 	 *
-	 *	For now, simply hold its reset line low.
+	 * 	For now, simply hold its reset line low.
 	 */
 #ifdef WARP_BUILD_ENABLE_DEVSI4705
-	GPIO_DRV_ClearPinOutput(kWarpPinSI4705_nRST);
+		GPIO_DRV_ClearPinOutput(kWarpPinSI4705_nRST);
 #endif
 
 
 
-	/*
-	 *	PAN1326.
-	 *
-	 *	For now, simply hold its reset line low.
-	 */
+			/*
+			 *	PAN1326.
+			 *
+			 *	For now, simply hold its reset line low.
+			 */
 #ifndef WARP_BUILD_ENABLE_THERMALCHAMBERANALYSIS
 #ifdef WARP_BUILD_ENABLE_DEVPAN1326
-	GPIO_DRV_ClearPinOutput(kWarpPinPAN1326_nSHUTD);
+			GPIO_DRV_ClearPinOutput(kWarpPinPAN1326_nSHUTD);
 #endif
 #endif
 }

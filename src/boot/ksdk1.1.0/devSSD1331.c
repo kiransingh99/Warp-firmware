@@ -24,7 +24,9 @@ enum
 	kSSD1331PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 0),
 };
 
-static int
+//static int
+
+int
 writeCommand(uint8_t commandByte)
 {
 	spi_status_t status;
@@ -44,6 +46,7 @@ writeCommand(uint8_t commandByte)
 	GPIO_DRV_ClearPinOutput(kSSD1331PinDC);
 
 	payloadBytes[0] = commandByte;
+
 	status = SPI_DRV_MasterTransferBlocking(0	/* master instance */,
 					NULL		/* spi_master_user_config_t */,
 					(const uint8_t * restrict)&payloadBytes[0],
@@ -155,9 +158,19 @@ devSSD1331init(void)
 	/*
 	 *	Any post-initialization drawing commands go here.
 	 */
-	//...
-
-
+	writeCommand(kSSD1331CommandDRAWRECT);       
+	writeCommand(0x00); //Column Start
+	writeCommand(0x00); //Row Start
+	writeCommand(0x5F); //Column End
+	writeCommand(0x3f); //Row End
+	writeCommand(0x00); //Line Colour red
+	writeCommand(0xFF); //Line Colour green
+	writeCommand(0x00); //Line Colour blue
+	writeCommand(0x00); //Fill Colour red
+	writeCommand(0xFF); //Fill Colour green
+	writeCommand(0x00); //Fill Colour blue
 
 	return 0;
 }
+
+
